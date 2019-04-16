@@ -1,0 +1,12 @@
+language: go
+go:
+    - "1.12"
+
+env:
+    - TARGET=dist-linux-amd64
+    - TARGET=dist-darwin-amd64
+    - TARGET=dist-windows-amd64
+
+install: true
+
+script: curl -sSf https://yatr.rgm.io/run.sh | CGO_ENABLED=0 bash

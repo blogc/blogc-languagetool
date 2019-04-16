@@ -12,3 +12,6 @@
 *.out
 
 /blogc-languagetool
+
+/build/
+/vendor/
