@@ -12,6 +12,9 @@ import (
 )
 
 type ltResponse struct {
+	Software struct {
+		Version string `json:"version"`
+	} `json:"software"`
 	Matches []struct {
 		Message  string `json:"message"`
 		Sentence string `json:"sentence"`
@@ -87,6 +90,9 @@ func ltCheck(apiUrl string, text string, language string, motherTongue string, d
 	if err := json.Unmarshal(data, &obj); err != nil {
 		return err
 	}
+
+	logCtx = logrus.WithField("languagetool_version", obj.Software.Version)
+	logCtx.Info("Processed successfuly by LanguageTool API")
 
 	bar := strings.Repeat("-", 80)
 

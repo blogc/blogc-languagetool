@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/blogc/go-blogc"
 	"github.com/sirupsen/logrus"
 )
@@ -13,5 +15,17 @@ func blogcParse(fileName string) (string, error) {
 	}
 
 	text, _, err := entry.GetEvaluatedVariable("CONTENT")
-	return text, err
+	if err != nil {
+		return "", err
+	}
+
+	title, found, err := entry.GetEvaluatedVariable("TITLE")
+	if err != nil {
+		return "", err
+	}
+	if found {
+		return fmt.Sprintf("<h1>%s</h1>\n%s", title, text), nil
+	}
+
+	return text, nil
 }
