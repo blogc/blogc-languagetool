@@ -17,6 +17,7 @@ var (
 	cfgFile            string
 	disabledRules      []string
 	disabledCategories []string
+	ignoreWords        []string
 
 	cmd = &cobra.Command{
 		Use:   "blogc-languagetool SOURCE",
@@ -48,6 +49,7 @@ var (
 				textStr,
 				viper.GetString("language"),
 				viper.GetString("mother-tongue"),
+				mergeSlices(viper.GetStringSlice("ignore-words"), ignoreWords),
 				mergeSlices(viper.GetStringSlice("disable-rules"), disabledRules),
 				mergeSlices(viper.GetStringSlice("disable-categories"), disabledCategories),
 			); err != nil {
@@ -145,6 +147,13 @@ func init() {
 		"t",
 		false,
 		"dump text generated and exit without checking grammar",
+	)
+	cmd.Flags().StringSliceVarP(
+		&ignoreWords,
+		"ignore-words",
+		"i",
+		nil,
+		"comma-separated list of words to ignore when checking grammar, merged with config",
 	)
 	cmd.Flags().StringP(
 		"language",

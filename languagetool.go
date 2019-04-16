@@ -41,7 +41,7 @@ type ltResponse struct {
 	} `json:"matches"`
 }
 
-func ltCheck(apiUrl string, text string, language string, motherTongue string, disabledRules []string, disabledCategories []string) error {
+func ltCheck(apiUrl string, text string, language string, motherTongue string, ignoreWords []string, disabledRules []string, disabledCategories []string) error {
 	if apiUrl == "" {
 		apiUrl = defaultApiUrl
 	}
@@ -97,6 +97,24 @@ func ltCheck(apiUrl string, text string, language string, motherTongue string, d
 	bar := strings.Repeat("-", 80)
 
 	for i, m := range obj.Matches {
+
+		found := false
+		bad := m.Context.Text[m.Context.Offset : m.Context.Offset+m.Context.Length]
+		for _, word := range strings.Split(bad, " ") {
+			for _, ignoredWord := range ignoreWords {
+				if word == ignoredWord {
+					found = true
+					break
+				}
+			}
+			if found {
+				break
+			}
+		}
+		if found {
+			continue
+		}
+
 		fmt.Printf("Rule: %s: %s\n", m.Rule.Id, m.Rule.Description)
 		fmt.Printf("      %s: %s (%s)\n", m.Rule.Category.Id, m.Rule.Category.Name, m.Rule.IssueType)
 		for _, u := range m.Rule.URLs {
