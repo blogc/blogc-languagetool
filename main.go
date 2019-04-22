@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/blogc/blogc-languagetool/version"
 	"github.com/mitchellh/go-homedir"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -13,8 +14,6 @@ import (
 
 var (
 	defaultApiUrl = "https://languagetool.org/api"
-
-	Version = "git"
 
 	cfgFile            string
 	disabledRules      []string
@@ -25,7 +24,7 @@ var (
 		Use:     "blogc-languagetool SOURCE",
 		Short:   "Check grammar of blogc source files using LanguageTool API",
 		Args:    cobra.ExactArgs(1),
-		Version: Version,
+		Version: version.Version,
 		Run: func(cmd *cobra.Command, args []string) {
 			htmlStr, err := blogcParse(args[0])
 			if err != nil {
