@@ -14,15 +14,18 @@ import (
 var (
 	defaultApiUrl = "https://languagetool.org/api"
 
+	Version = "git"
+
 	cfgFile            string
 	disabledRules      []string
 	disabledCategories []string
 	ignoreWords        []string
 
 	cmd = &cobra.Command{
-		Use:   "blogc-languagetool SOURCE",
-		Short: "Check grammar of blogc source files using LanguageTool API",
-		Args:  cobra.ExactArgs(1),
+		Use:     "blogc-languagetool SOURCE",
+		Short:   "Check grammar of blogc source files using LanguageTool API",
+		Args:    cobra.ExactArgs(1),
+		Version: Version,
 		Run: func(cmd *cobra.Command, args []string) {
 			htmlStr, err := blogcParse(args[0])
 			if err != nil {

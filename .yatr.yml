@@ -1,0 +1,13 @@
+targets:
+    dist-linux-amd64:
+        task_args:
+            - -ldflags
+            - "-X github.com/blogc/blogc-languagetool.Version={{.Version}}"
+    dist-darwin-amd64:
+        task_args:
+            - -ldflags
+            - "-X github.com/blogc/blogc-languagetool.Version={{.Version}}"
+    dist-windows-amd64:
+        task_args:
+            - -ldflags
+            - "-X github.com/blogc/blogc-languagetool.Version={{.Version}}"
